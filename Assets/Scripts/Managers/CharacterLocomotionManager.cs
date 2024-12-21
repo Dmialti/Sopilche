@@ -3,18 +3,26 @@ using UnityEngine;
 public class MovementManager : MonoBehaviour
 {
     #region Variables
+    private Rigidbody2D rigidbody;
+
     private CharacterInputReader inputReader;
 
-    [SerializeField]
-    private float speed;
+    private float currentSpeed;
 
-    private Rigidbody2D rigidbody;
+    [Header("Movement Settings")]
+    [SerializeField] private float walkSpeed = 3;
+    [SerializeField] private float runSpeed = 6;
+
     #endregion
 
     #region Methods
-    void Move(Vector2 movement)
+    void Move()
     {
-        rigidbody.linearVelocity = movement * speed;
+        rigidbody.linearVelocity = inputReader.MoveDirection * currentSpeed;
+    }
+    void Sprint(bool isSprinting)
+    {
+        currentSpeed = isSprinting ? runSpeed : walkSpeed;
     }
     #endregion
 
@@ -23,21 +31,27 @@ public class MovementManager : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         inputReader = new CharacterInputReader();
+
+        currentSpeed = walkSpeed;
     }
 
     void Update()
     {
         
     }
+    private void FixedUpdate()
+    {
+        Move();
+    }
 
     void OnEnable()
     {
-        inputReader.Move += Move;
+        inputReader.Sprint += Sprint;
     }
 
     void OnDisable()
     {
-        inputReader.Move -= Move;
+        inputReader.Sprint -= Sprint;
     }
     #endregion
 }

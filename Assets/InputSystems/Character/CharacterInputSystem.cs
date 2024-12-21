@@ -37,6 +37,15 @@ namespace InputSystems
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""de477f19-7b0d-432a-8c43-6b42ff9bfb5d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -96,7 +105,7 @@ namespace InputSystems
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""2D Vector"",
+                    ""name"": ""Gamepad"",
                     ""id"": ""5d17b168-53e8-41d7-ba32-0605145057b2"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
@@ -149,6 +158,17 @@ namespace InputSystems
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1a515081-a135-4e07-9ca1-4187b8a6468b"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -158,6 +178,7 @@ namespace InputSystems
             // Movement
             m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
             m_Movement_Move = m_Movement.FindAction("Move", throwIfNotFound: true);
+            m_Movement_Sprint = m_Movement.FindAction("Sprint", throwIfNotFound: true);
         }
 
         ~@CharacterInputSystem()
@@ -225,11 +246,13 @@ namespace InputSystems
         private readonly InputActionMap m_Movement;
         private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
         private readonly InputAction m_Movement_Move;
+        private readonly InputAction m_Movement_Sprint;
         public struct MovementActions
         {
             private @CharacterInputSystem m_Wrapper;
             public MovementActions(@CharacterInputSystem wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Movement_Move;
+            public InputAction @Sprint => m_Wrapper.m_Movement_Sprint;
             public InputActionMap Get() { return m_Wrapper.m_Movement; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -242,6 +265,9 @@ namespace InputSystems
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @Sprint.started += instance.OnSprint;
+                @Sprint.performed += instance.OnSprint;
+                @Sprint.canceled += instance.OnSprint;
             }
 
             private void UnregisterCallbacks(IMovementActions instance)
@@ -249,6 +275,9 @@ namespace InputSystems
                 @Move.started -= instance.OnMove;
                 @Move.performed -= instance.OnMove;
                 @Move.canceled -= instance.OnMove;
+                @Sprint.started -= instance.OnSprint;
+                @Sprint.performed -= instance.OnSprint;
+                @Sprint.canceled -= instance.OnSprint;
             }
 
             public void RemoveCallbacks(IMovementActions instance)
@@ -269,6 +298,7 @@ namespace InputSystems
         public interface IMovementActions
         {
             void OnMove(InputAction.CallbackContext context);
+            void OnSprint(InputAction.CallbackContext context);
         }
     }
 }

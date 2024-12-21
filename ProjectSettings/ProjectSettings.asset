@@ -687,11 +687,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 68d70edb-14f1-4e9c-b53e-23aba0eb3460
+  cloudProjectId: cb4b1efb-be0f-4a26-9bae-5760446588d0
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: SOPILCHE
-  organizationId: tishdima1
+  projectName: Sopilche
+  organizationId: petroderlytsia
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

@@ -10,7 +10,7 @@ public class MovementManager : MonoBehaviour
     private float currentSpeed;
 
     [Header("Movement Settings")]
-    [SerializeField] private float walkSpeed = 3;
+    [SerializeField] private float walkSpeed = 3;   
     [SerializeField] private float runSpeed = 6;
 
     #endregion

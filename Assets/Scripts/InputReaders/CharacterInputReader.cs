@@ -7,8 +7,7 @@ using UnityEngine.InputSystem.Interactions;
 public class CharacterInputReader : CharacterInputSystem.IMovementActions
 {
     public event UnityAction<bool> Sprint = delegate { };
-
-    public Vector2 MoveDirection = Vector2.zero;
+    public event UnityAction<Vector2> SetMoveDirection = delegate { };
 
     private CharacterInputSystem inputActions;
     public CharacterInputReader()
@@ -23,7 +22,7 @@ public class CharacterInputReader : CharacterInputSystem.IMovementActions
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        MoveDirection = context.ReadValue<Vector2>();
+        SetMoveDirection?.Invoke(context.ReadValue<Vector2>());
     }
 
     public void OnSprint(InputAction.CallbackContext context)

@@ -1,57 +1,59 @@
 using UnityEngine;
 
-public class MovementManager : MonoBehaviour
+public class CharacterLocomotionManager : MonoBehaviour
 {
     #region Variables
     private Rigidbody2D rigidbody;
 
-    private CharacterInputReader inputReader;
+    protected Vector2 MoveDirection;
 
-    private float currentSpeed;
+    protected StateMachine stateMachine;
+
+
 
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 3;   
     [SerializeField] private float runSpeed = 6;
 
+    protected bool isSprinting;
+
     #endregion
 
     #region Methods
-    void Move()
+    public void Move(float speed)
     {
-        rigidbody.linearVelocity = inputReader.MoveDirection * currentSpeed;
+        rigidbody.linearVelocity = MoveDirection * speed;
     }
-    void Sprint(bool isSprinting)
-    {
-        currentSpeed = isSprinting ? runSpeed : walkSpeed;
-    }
+    
+    protected void SetMoveDirection(Vector2 value) => MoveDirection = value;
+
+    protected void SetSprinting(bool value) => isSprinting = value;
     #endregion
 
     #region MonoBehaviour Callbacks
-    void Awake()
+    protected void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        inputReader = new CharacterInputReader();
 
-        currentSpeed = walkSpeed;
+        stateMachine = new StateMachine();
+
     }
 
-    void Update()
+    protected void Update()
     {
-        
+        stateMachine.Update();
     }
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
-        Move();
-    }
-
-    void OnEnable()
-    {
-        inputReader.Sprint += Sprint;
+        stateMachine.FixedUpdate();
     }
 
-    void OnDisable()
+    protected void OnEnable()
     {
-        inputReader.Sprint -= Sprint;
+    }
+
+    protected void OnDisable()
+    {
     }
     #endregion
 }

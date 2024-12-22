@@ -5,8 +5,8 @@ using UnityEngine;
 public class StateMachine
 {
     private StateNode CurrentState;
-    Dictionary<Type, StateNode> StateNodes;
-    HashSet<ITransition> AnyTransitions;
+    Dictionary<Type, StateNode> StateNodes = new();
+    HashSet<ITransition> AnyTransitions = new();
 
     public void SetState(IState State)
     {
@@ -78,4 +78,6 @@ public class StateMachine
     {
         CurrentState.State?.FixedUpdate();
     }
+
+
 }

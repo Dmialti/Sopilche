@@ -22,6 +22,8 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         stateMachine.AddTransition(idleState, walkState, new Predicate(() => MoveDirection != Vector2.zero));
         stateMachine.AddTransition(walkState, idleState, new Predicate(() => MoveDirection == Vector2.zero));
         stateMachine.AddTransition(walkState, sprintState, new Predicate(() => isSprinting));
+        stateMachine.AddTransition(sprintState, walkState, new Predicate(() => MoveDirection != Vector2.zero && !isSprinting));
+        stateMachine.AddTransition(sprintState, walkState, new Predicate(() => MoveDirection == Vector2.zero));
 
         stateMachine.SetState(idleState);
     }

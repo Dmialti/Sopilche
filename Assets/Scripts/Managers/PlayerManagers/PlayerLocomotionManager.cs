@@ -28,7 +28,6 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         stateMachine.SetState(idleState);
     }
 
-    // Update is called once per frame
     void Update()
     {
         base.Update();

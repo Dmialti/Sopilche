@@ -9,8 +9,6 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     protected StateMachine stateMachine;
 
-
-
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 3;   
     [SerializeField] private float runSpeed = 6;
@@ -36,13 +34,13 @@ public class CharacterLocomotionManager : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
 
         stateMachine = new StateMachine();
-
     }
 
     protected void Update()
     {
         stateMachine.Update();
     }
+
     protected void FixedUpdate()
     {
         stateMachine.FixedUpdate();

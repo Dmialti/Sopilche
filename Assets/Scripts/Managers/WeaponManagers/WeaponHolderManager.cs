@@ -16,16 +16,20 @@ public class WeaponHolderManager : MonoBehaviour
 
     #region Methods
 
-    private void RefreshPosition()
+    private void SetCurrentDirection()
     {
         Vector3 mousePosition = Input.mousePosition;
         mousePosition.z = characterTransform.position.z - Camera.main.transform.position.z;
         Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         currentDirection = (worldMousePosition - characterTransform.position).normalized;
+    }
+
+    private void SetPosition()
+    {
         transform.position = characterTransform.position + currentDirection * offset;
     }
 
-    private void RefreshRotation()
+    private void SetRotation()
     {
         float angle = Mathf.Atan2(currentDirection.y, currentDirection.x) * Mathf.Rad2Deg;
         
@@ -40,6 +44,7 @@ public class WeaponHolderManager : MonoBehaviour
         }
 
         transform.rotation = Quaternion.Euler(0, 0, angle);
+
     }
 
     #endregion
@@ -51,7 +56,8 @@ public class WeaponHolderManager : MonoBehaviour
 
     void Update()
     {
-        RefreshPosition();
-        RefreshRotation();
+        SetCurrentDirection();
+        SetPosition();
+        SetRotation();
     }
 }

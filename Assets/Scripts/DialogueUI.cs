@@ -7,6 +7,6 @@ public class DialogueUI : MonoBehaviour
 
     private void Start()
     {
-        textLabel.text = "Здарова песюни\nНучо поыграэм))))))";
+        GetComponent<TypewriterEffect>().Run("Здарова песюни)))\nНу чо посмакуєм\nLazyegg", textLabel);
     }
 }

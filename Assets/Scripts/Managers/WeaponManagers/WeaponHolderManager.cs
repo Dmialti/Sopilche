@@ -4,6 +4,8 @@ public class WeaponHolderManager : MonoBehaviour
 {
     #region Variables
 
+    Vector3 currentDirection;
+
     [Header("References")]
     [SerializeField] private Transform characterTransform;
 
@@ -19,10 +21,26 @@ public class WeaponHolderManager : MonoBehaviour
         Vector3 mousePosition = Input.mousePosition;
         mousePosition.z = characterTransform.position.z - Camera.main.transform.position.z;
         Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        Vector3 direction = (worldMousePosition - characterTransform.position).normalized;
-        transform.position = characterTransform.position + direction * offset;
+        currentDirection = (worldMousePosition - characterTransform.position).normalized;
+        transform.position = characterTransform.position + currentDirection * offset;
     }
 
+    private void RefreshRotation()
+    {
+        float angle = Mathf.Atan2(currentDirection.y, currentDirection.x) * Mathf.Rad2Deg;
+        
+        if(angle > 90 || angle < -90)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+            angle -= 180;
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
 
     #endregion
 
@@ -34,5 +52,6 @@ public class WeaponHolderManager : MonoBehaviour
     void Update()
     {
         RefreshPosition();
+        RefreshRotation();
     }
 }
